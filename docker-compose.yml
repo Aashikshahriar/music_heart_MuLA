@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: heartmula-backend:local
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ckpt:/app/ckpt
+      - ./outputs:/app/outputs
+    environment:
+      MODEL_PATH: /app/ckpt
+      MODEL_VERSION: "3B"
+      MULA_DEVICE: cuda
+      CODEC_DEVICE: cuda
+      MULA_DTYPE: bf16
+      CODEC_DTYPE: fp32
+      LAZY_LOAD: "false"
+      OUTPUT_DIR: /app/outputs
+      DEFAULT_MAX_AUDIO_LENGTH_MS: "60000"
+      MAX_ALLOWED_AUDIO_LENGTH_MS: "240000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]

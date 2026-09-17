@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HeartMuLa Test Console</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>HeartMuLa Test Console</h1>
+    <div id="health-banner" class="banner">Checking backend...</div>
+  </header>
+
+  <main>
+    <form id="generate-form">
+      <label for="lyrics">Lyrics</label>
+      <textarea id="lyrics" rows="14" required></textarea>
+
+      <label for="tags">Tags (comma-separated)</label>
+      <input id="tags" type="text" required />
+
+      <details>
+        <summary>Advanced options</summary>
+        <div class="advanced-grid">
+          <label>Max audio length (ms)
+            <input id="max_audio_length_ms" type="number" min="1000" step="1000" value="60000" />
+          </label>
+          <label>Top-k
+            <input id="topk" type="number" min="1" value="50" />
+          </label>
+          <label>Temperature
+            <input id="temperature" type="number" min="0.1" step="0.1" value="1.0" />
+          </label>
+          <label>CFG scale
+            <input id="cfg_scale" type="number" min="0" step="0.1" value="1.5" />
+          </label>
+        </div>
+      </details>
+
+      <button id="generate-btn" type="submit">Generate</button>
+    </form>
+
+    <section id="status-section" hidden>
+      <h2>Job status</h2>
+      <p id="job-id"></p>
+      <p id="job-status"></p>
+      <p id="job-error" class="error"></p>
+      <audio id="player" controls hidden></audio>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
