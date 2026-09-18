@@ -160,6 +160,142 @@ SONGS = [
 আনন্দে ভরুক জীবনটা""",
         "max_audio_length_ms": 60000,
     },
+    {
+        "slug": "bidrohi_hard_rock",
+        "title": "Bidrohi (Hard Rock)",
+        "mood": "Aggressive hard rock, male vocal",
+        "tags": "bengali,rock,hard rock,electric guitar,energetic,aggressive,male vocal",
+        "lyrics": """[Verse]
+রাত্রি নামে আগুন জ্বলে
+বুকের ভেতর ঝড় ওঠে
+ভাঙবো আজ সব শিকল
+নতুন পথে পা বাড়াবো
+
+[Chorus]
+জ্বলে ওঠো আজ প্রাণের টানে
+রকের সুরে গর্জে ওঠো
+কেউ থামাবে না এই পথ
+সাহস নিয়ে চলো সবাই
+
+[Verse]
+পুরনো ভয় ফেলে দিলাম
+নতুন সাহস বুকে নিলাম
+গিটারের তারে ঝড় তুলি
+জীবনটাকে জয় করি
+
+[Chorus]
+জ্বলে ওঠো আজ প্রাণের টানে
+রকের সুরে গর্জে ওঠো
+কেউ থামাবে না এই পথ
+সাহস নিয়ে চলো সবাই
+
+[Outro]
+এই গান আমার বিদ্রোহের
+থামবে না এই লড়াই কোনোদিন""",
+        "max_audio_length_ms": 150000,
+    },
+    {
+        "slug": "bangla_hiphop",
+        "title": "Bangla Hip-Hop",
+        "mood": "Energetic rap, male vocal",
+        "tags": "bengali,rap,hip hop,energetic,beats,urban,male vocal",
+        "lyrics": """[Verse]
+আমি চলি নিজের ছন্দে
+মাথা উঁচু রেখে পথে
+কথা কম কাজ বেশি
+স্বপ্ন দেখি প্রতি রাতে
+
+[Hook]
+উঠে দাঁড়াও বাংলার ছেলে
+রেপের তালে গল্প বলে
+হার মানি না কোনো খেলে
+এগিয়ে যাই দিন বদলে
+
+[Verse]
+রাস্তা থেকে শিখেছি সব
+জীবন মানে সংগ্রাম রব
+মাইক হাতে বলি কথা
+সত্যি কথায় ভরা ব্যথা
+
+[Hook]
+উঠে দাঁড়াও বাংলার ছেলে
+রেপের তালে গল্প বলে
+হার মানি না কোনো খেলে
+এগিয়ে যাই দিন বদলে
+
+[Outro]
+এই মাইক আমার অস্ত্র সমান
+বাংলা রেপে নতুন প্রাণ""",
+        "max_audio_length_ms": 140000,
+    },
+    {
+        "slug": "bhalobashar_ballad",
+        "title": "Bhalobashar Gaan (Romantic Ballad)",
+        "mood": "Soft romantic ballad, male vocal",
+        "tags": "bengali,romantic,ballad,love,soft,melodic,male vocal",
+        "lyrics": """[Verse]
+তোমার চোখে হারিয়ে যাই
+প্রতিটি রাতে তোমায় ভাবি
+মনের কথা বলা হয়নি
+আজও তোমায় খুঁজে বেড়াই
+
+[Chorus]
+ভালোবাসি তোমায় আমি
+বলতে পারিনি কোনোদিন
+তুমি আমার প্রথম স্বপ্ন
+তুমি আমার শেষ ঠিকানা
+
+[Verse]
+বৃষ্টি ভেজা সন্ধ্যেবেলা
+তোমার হাসি মনে পড়ে
+দূরে থেকেও কাছে তুমি
+হৃদয় জুড়ে তোমার বাস
+
+[Chorus]
+ভালোবাসি তোমায় আমি
+বলতে পারিনি কোনোদিন
+তুমি আমার প্রথম স্বপ্ন
+তুমি আমার শেষ ঠিকানা
+
+[Outro]
+এই গান শুধু তোমার জন্য
+ভালোবাসার এই বন্ধন""",
+        "max_audio_length_ms": 160000,
+    },
+    {
+        "slug": "sufi_qawwali",
+        "title": "Sufi Qawwali (Devotional)",
+        "mood": "Devotional qawwali, male vocal, harmonium and tabla",
+        "tags": "bengali,qawwali,sufi,devotional,spiritual,harmonium,male vocal",
+        "lyrics": """[Verse]
+মনের ভেতর আলো জ্বলে
+খুঁজি আমি সত্যের পথ
+দুনিয়ার এই মায়া ছেড়ে
+প্রভুর দিকে চলি নিরন্তর
+
+[Chorus]
+তুমি মহান করুণাময়
+তোমার নামে শান্তি খুঁজি
+হৃদয় জুড়ে তোমার আলো
+তোমার পথে চলবো আমি
+
+[Verse]
+রাত জাগি প্রার্থনায়
+মন ভরে যায় প্রশান্তিতে
+দুঃখ কষ্ট সব ভুলে
+তোমার কাছে মাথা নত করি
+
+[Chorus]
+তুমি মহান করুণাময়
+তোমার নামে শান্তি খুঁজি
+হৃদয় জুড়ে তোমার আলো
+তোমার পথে চলবো আমি
+
+[Outro]
+এই গান শুধু তোমার তরে
+হৃদয়ের এই ভক্তি ভরে""",
+        "max_audio_length_ms": 170000,
+    },
 ]
 
 

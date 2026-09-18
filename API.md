@@ -81,28 +81,39 @@ Submits a generation job. Returns immediately with a `job_id`.
 | Field                 | Type   | Default | Notes                                          |
 |-----------------------|--------|---------|-------------------------------------------------|
 | `lyrics`               | string | required | Full lyrics text, sections like `[Verse]`/`[Chorus]` work well |
-| `tags`                 | string | optional | Comma-separated free-text tags, e.g. `piano,happy,wedding` |
-| `genre`                | string | optional | Folded into the tags string (see note below) |
-| `bpm`                  | int    | optional | Folded in as `"<n>bpm"` — **best-effort only**, see note below |
-| `instruction`          | string | optional | Free-text style/production notes, folded into tags |
-| `prompt`               | string | optional | Free-text creative brief, folded into tags |
+| `genre`                | string | optional | Real trained category, training prob. 0.95 (highest impact) |
+| `timbre`               | string | optional | Real trained category, training prob. 0.5 |
+| `gender`               | string | optional | Real trained category, training prob. 0.375, e.g. `male vocal` |
+| `mood`                 | string | optional | Real trained category, training prob. 0.325 |
+| `instrument`           | string | optional | Real trained category, training prob. 0.25 |
+| `scene`                | string | optional | Real trained category, training prob. 0.2 |
+| `region`               | string | optional | Real trained category, training prob. 0.125 — **the accent/locale lever**, e.g. `bangladesh` |
+| `topic`                | string | optional | Real trained category, training prob. 0.1 (lowest impact) |
+| `tags`                 | string | optional | Extra free-text tags, folded in alongside the above |
+| `bpm`                  | int    | optional | **Not a real category — see note below** |
+| `instruction`          | string | optional | Free-text catch-all, folded into tags |
+| `prompt`               | string | optional | Free-text catch-all, folded into tags |
 | `file_format`          | string | `mp3`   | `mp3` or `wav` |
 | `max_audio_length_ms`  | int    | `60000` | Capped at `240000` (4 min, the upstream default) |
 | `topk`                 | int    | `50`    | Sampling top-k |
 | `temperature`          | float  | `1.0`   | Sampling temperature |
 | `cfg_scale`            | float  | `1.5`   | Classifier-free guidance scale |
 
-At least one of `tags`/`genre`/`bpm`/`instruction`/`prompt` must be non-empty.
+At least one of the tag-ish fields must be non-empty.
 
-**Important — there's no real "prompt" or "instruction" concept in the model.** Looking at
-heartlib's own pipeline code, `HeartMuLaGenPipeline` only ever conditions on two flat text
-strings: `tags` (wrapped in `<tag>...</tag>`) and `lyrics`. There's no chat-style system prompt,
-no instruction-following, and no structured genre/BPM embeddings. `genre`, `bpm`, `instruction`,
-and `prompt` here are a convenience layer **this backend** adds — they're simply concatenated
-into one `tags` string before being handed to the model. In particular, `bpm` is unverified:
-the tag vocabulary the model was actually trained on (per the README's examples — `piano`,
-`happy`, `wedding`, `synthesizer`) shows no numeric tempo tokens, so passing e.g. `bpm: 120`
-might do nothing. Treat it as an experiment, not a guaranteed control.
+**Where the 8 category fields come from.** heartlib's pipeline code only ever conditions on one
+flat `tags` text string (wrapped in `<tag>...</tag>`) plus `lyrics` — no chat-style system
+prompt. But the HeartMuLa paper (Sec. 3.2, "Conditioning Mechanism", Table 6) reveals that
+during training, tags were sampled from **8 specific categories**, each with a different
+selection probability — i.e. a different real, measured impact on what the model learned to
+respond to: `genre` 0.95, `timbre` 0.5, `gender` 0.375, `mood` 0.325, `instrument` 0.25,
+`scene` 0.2, `region` 0.125, `topic` 0.1. This backend exposes those 8 as real fields and folds
+them into one tags string, ordered by that same probability (highest-impact first). `region` is
+the paper-justified way to steer locale/accent (e.g. `bangladesh`) — not a vague "make it sound
+Bangladeshi" instruction string. `bpm` is **not** in this taxonomy at all — it was never a
+tag category the model was trained on, so treat it as an unverified long-shot, not a control.
+`tags`/`instruction`/`prompt` remain free-text catch-alls for anything outside the 8 categories.
+See `HEARTMULA_ENHANCEMENTS.md` for the full writeup and more tuning suggestions.
 
 ```
 curl -X POST http://localhost:8080/api/generate \
@@ -110,8 +121,9 @@ curl -X POST http://localhost:8080/api/generate \
   -d '{
     "lyrics": "[Verse]\nSample lyrics line one\nSample lyrics line two\n[Chorus]\nSinging in the sun",
     "genre": "acoustic pop",
-    "bpm": 100,
-    "instruction": "warm, intimate, gentle female vocal",
+    "gender": "female vocal",
+    "region": "bangladesh",
+    "mood": "warm, intimate",
     "file_format": "mp3",
     "max_audio_length_ms": 15000
   }'

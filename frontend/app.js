@@ -82,8 +82,15 @@ form.addEventListener("submit", async (e) => {
 
   const body = {
     lyrics: lyricsEl.value,
-    tags: tagsEl.value || undefined,
     genre: document.getElementById("genre").value || undefined,
+    timbre: document.getElementById("timbre").value || undefined,
+    gender: document.getElementById("gender").value || undefined,
+    mood: document.getElementById("mood").value || undefined,
+    instrument: document.getElementById("instrument").value || undefined,
+    scene: document.getElementById("scene").value || undefined,
+    region: document.getElementById("region").value || undefined,
+    topic: document.getElementById("topic").value || undefined,
+    tags: tagsEl.value || undefined,
     bpm: bpmVal ? Number(bpmVal) : undefined,
     instruction: document.getElementById("instruction").value || undefined,
     prompt: document.getElementById("prompt").value || undefined,

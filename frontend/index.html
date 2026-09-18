@@ -20,24 +20,62 @@
       <label for="tags">Tags (comma-separated)</label>
       <input id="tags" type="text" />
 
-      <details>
-        <summary>Advanced options</summary>
+      <details open>
+        <summary>Tag categories (from the HeartMuLa paper, Sec. 3.2 / Table 6)</summary>
         <p class="hint">
-          Genre/BPM/instruction/prompt are folded into one tags string by the backend -
-          the model itself only understands flat tags + lyrics. BPM is best-effort, not a
-          guaranteed control (see API.md).
+          These 8 fields are the model's <em>real</em> trained tag categories, listed here in
+          order of training selection probability (impact): Genre .95, Timbre .5, Gender .375,
+          Mood .325, Instrument .25, Scene .2, Region .125, Topic .1. All get folded into one
+          tags string by the backend before hitting the model. <strong>Region</strong> is the
+          paper-justified lever for accent/locale (e.g. "bangladesh") - not a vague "make it
+          sound Bangladeshi" instruction.
         </p>
         <div class="advanced-grid">
-          <label>Genre
-            <input id="genre" type="text" placeholder="e.g. acoustic pop" />
+          <label>Genre <span class="prob">.95</span>
+            <input id="genre" type="text" placeholder="e.g. bangla folk" />
           </label>
-          <label>BPM (experimental)
+          <label>Timbre <span class="prob">.5</span>
+            <input id="timbre" type="text" placeholder="e.g. warm, raspy" />
+          </label>
+          <label>Gender <span class="prob">.375</span>
+            <input id="gender" type="text" placeholder="e.g. male vocal" />
+          </label>
+          <label>Mood <span class="prob">.325</span>
+            <input id="mood" type="text" placeholder="e.g. melancholic" />
+          </label>
+          <label>Instrument <span class="prob">.25</span>
+            <input id="instrument" type="text" placeholder="e.g. harmonium, tabla" />
+          </label>
+          <label>Scene <span class="prob">.2</span>
+            <input id="scene" type="text" placeholder="e.g. village, riverside" />
+          </label>
+          <label>Region <span class="prob">.125</span>
+            <input id="region" type="text" placeholder="e.g. bangladesh" />
+          </label>
+          <label>Topic <span class="prob">.1</span>
+            <input id="topic" type="text" placeholder="e.g. monsoon, longing" />
+          </label>
+        </div>
+      </details>
+
+      <details>
+        <summary>Other options (not part of the paper's tag taxonomy)</summary>
+        <p class="hint">
+          Tags/instruction/prompt are free-text catch-alls also folded into the tags string.
+          BPM is <strong>not</strong> one of the model's trained categories at all (confirmed
+          absent from Table 6) - treat it as a long-shot experiment, not a real control.
+        </p>
+        <div class="advanced-grid">
+          <label>Extra tags (comma-separated)
+            <input id="tags" type="text" />
+          </label>
+          <label>BPM (unverified/experimental)
             <input id="bpm" type="number" min="20" max="300" placeholder="e.g. 100" />
           </label>
-          <label>Instruction
-            <input id="instruction" type="text" placeholder="e.g. warm, gentle female vocal" />
+          <label>Instruction (free text)
+            <input id="instruction" type="text" placeholder="e.g. gentle production" />
           </label>
-          <label>Prompt
+          <label>Prompt (free text)
             <input id="prompt" type="text" placeholder="e.g. a song about rain" />
           </label>
           <label>File format

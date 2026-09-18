@@ -33,6 +33,12 @@ textarea, input[type="text"], input[type="number"] {
   padding: 0.4rem;
 }
 
+.prob {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  font-weight: normal;
+}
+
 .hint {
   font-size: 0.85rem;
   opacity: 0.75;
