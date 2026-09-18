@@ -55,8 +55,8 @@ See [API.md](./API.md) for the complete endpoint reference and test walkthrough.
    ```
    docker compose up
    ```
-   Wait for `Model loaded.` in the logs, then open **http://localhost:8000** for the
-   sample frontend, or hit `http://localhost:8000/api/health` to confirm the model
+   Wait for `Model loaded.` in the logs, then open **http://localhost:8080** for the
+   sample frontend, or hit `http://localhost:8080/api/health` to confirm the model
    and GPU are ready.
 
 5. **Test generation** — either through the browser UI, or via curl (see

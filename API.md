@@ -39,13 +39,13 @@ rebuilds. You do not need to repeat this unless you delete the `ckpt/` folder.
 docker compose up
 ```
 
-The API + frontend are served at **http://localhost:8000**. On startup the server loads the
+The API + frontend are served at **http://localhost:8080**. On startup the server loads the
 HeartMuLa-oss-3B pipeline into GPU memory — watch the logs for `Model loaded.` before issuing
 requests; `/api/health` will report `model_loaded: false` until that finishes.
 
 ## Using the sample frontend
 
-Open **http://localhost:8000** in a browser. It shows a health banner (model/GPU status),
+Open **http://localhost:8080** in a browser. It shows a health banner (model/GPU status),
 a form pre-filled with sample lyrics/tags, a "Generate" button, and polls job status
 automatically, rendering an `<audio>` player once the clip is ready.
 
@@ -58,7 +58,7 @@ All endpoints are prefixed with `/api`.
 Reports whether the model is loaded and current GPU/VRAM usage.
 
 ```
-curl http://localhost:8000/api/health
+curl http://localhost:8080/api/health
 ```
 
 ```json
@@ -88,7 +88,7 @@ Submits a generation job. Returns immediately with a `job_id`.
 | `cfg_scale`            | float  | `1.5`   | Classifier-free guidance scale |
 
 ```
-curl -X POST http://localhost:8000/api/generate \
+curl -X POST http://localhost:8080/api/generate \
   -H "Content-Type: application/json" \
   -d '{
     "lyrics": "[Verse]\nSample lyrics line one\nSample lyrics line two\n[Chorus]\nSinging in the sun",
@@ -106,7 +106,7 @@ curl -X POST http://localhost:8000/api/generate \
 Poll this until `status` is `done` or `error`.
 
 ```
-curl http://localhost:8000/api/jobs/a1b2c3d4e5f6
+curl http://localhost:8080/api/jobs/a1b2c3d4e5f6
 ```
 
 ```json
@@ -128,13 +128,13 @@ Status values: `queued` → `running` → `done` | `error`.
 Streams the generated `.mp3` once the job is `done` (returns `409` if not ready yet).
 
 ```
-curl -o output.mp3 http://localhost:8000/api/jobs/a1b2c3d4e5f6/audio
+curl -o output.mp3 http://localhost:8080/api/jobs/a1b2c3d4e5f6/audio
 ```
 
 ## End-to-end curl example
 
 ```bash
-JOB_ID=$(curl -s -X POST http://localhost:8000/api/generate \
+JOB_ID=$(curl -s -X POST http://localhost:8080/api/generate \
   -H "Content-Type: application/json" \
   -d '{"lyrics": "[Verse]\nTesting one two three", "tags": "piano,happy", "max_audio_length_ms": 15000}' \
   | python -c "import sys,json; print(json.load(sys.stdin)['job_id'])")
@@ -143,13 +143,13 @@ echo "Job: $JOB_ID"
 
 # Poll every 3s until done
 while true; do
-  STATUS=$(curl -s http://localhost:8000/api/jobs/$JOB_ID | python -c "import sys,json; print(json.load(sys.stdin)['status'])")
+  STATUS=$(curl -s http://localhost:8080/api/jobs/$JOB_ID | python -c "import sys,json; print(json.load(sys.stdin)['status'])")
   echo "status: $STATUS"
   [ "$STATUS" = "done" ] || [ "$STATUS" = "error" ] && break
   sleep 3
 done
 
-curl -o output.mp3 http://localhost:8000/api/jobs/$JOB_ID/audio
+curl -o output.mp3 http://localhost:8080/api/jobs/$JOB_ID/audio
 ```
 
 ## Troubleshooting
