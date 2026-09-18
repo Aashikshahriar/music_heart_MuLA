@@ -19,13 +19,21 @@ def generate(req: GenerateRequest) -> GenerateResponse:
             detail=f"max_audio_length_ms must be <= {settings.max_allowed_audio_length_ms}",
         )
 
+    tags = req.build_tags_string()
+    if not tags:
+        raise HTTPException(
+            status_code=400,
+            detail="At least one of tags/genre/bpm/instruction/prompt must be provided",
+        )
+
     job = job_manager.create(
         lyrics=req.lyrics,
-        tags=req.tags,
+        tags=tags,
         max_audio_length_ms=max_len,
         topk=req.topk,
         temperature=req.temperature,
         cfg_scale=req.cfg_scale,
+        file_format=req.file_format,
     )
     return GenerateResponse(job_id=job.job_id, status=job.status)
 
@@ -60,4 +68,5 @@ def get_job_audio(job_id: str):
     if not path.exists():
         raise HTTPException(status_code=404, detail="audio file not found")
 
-    return FileResponse(path, media_type="audio/mpeg", filename=path.name)
+    media_type = "audio/wav" if job.file_format == "wav" else "audio/mpeg"
+    return FileResponse(path, media_type=media_type, filename=path.name)

@@ -18,6 +18,7 @@ class Job:
     finished_at: Optional[float] = None
     error: Optional[str] = None
     output_path: Optional[str] = None
+    file_format: str = "mp3"
 
 
 class JobManager:
@@ -33,10 +34,11 @@ class JobManager:
         topk: int,
         temperature: float,
         cfg_scale: float,
+        file_format: str = "mp3",
     ) -> Job:
         job_id = uuid.uuid4().hex[:12]
-        output_path = str(Path(settings.output_dir) / f"{job_id}.mp3")
-        job = Job(job_id=job_id, output_path=output_path)
+        output_path = str(Path(settings.output_dir) / f"{job_id}.{file_format}")
+        job = Job(job_id=job_id, output_path=output_path, file_format=file_format)
 
         with self._lock:
             self._jobs[job_id] = job

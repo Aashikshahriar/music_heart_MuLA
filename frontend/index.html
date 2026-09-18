@@ -18,11 +18,34 @@
       <textarea id="lyrics" rows="14" required></textarea>
 
       <label for="tags">Tags (comma-separated)</label>
-      <input id="tags" type="text" required />
+      <input id="tags" type="text" />
 
       <details>
         <summary>Advanced options</summary>
+        <p class="hint">
+          Genre/BPM/instruction/prompt are folded into one tags string by the backend -
+          the model itself only understands flat tags + lyrics. BPM is best-effort, not a
+          guaranteed control (see API.md).
+        </p>
         <div class="advanced-grid">
+          <label>Genre
+            <input id="genre" type="text" placeholder="e.g. acoustic pop" />
+          </label>
+          <label>BPM (experimental)
+            <input id="bpm" type="number" min="20" max="300" placeholder="e.g. 100" />
+          </label>
+          <label>Instruction
+            <input id="instruction" type="text" placeholder="e.g. warm, gentle female vocal" />
+          </label>
+          <label>Prompt
+            <input id="prompt" type="text" placeholder="e.g. a song about rain" />
+          </label>
+          <label>File format
+            <select id="file_format">
+              <option value="mp3">mp3</option>
+              <option value="wav">wav</option>
+            </select>
+          </label>
           <label>Max audio length (ms)
             <input id="max_audio_length_ms" type="number" min="1000" step="1000" value="60000" />
           </label>

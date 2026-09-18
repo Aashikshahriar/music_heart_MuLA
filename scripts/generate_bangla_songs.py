@@ -8,6 +8,7 @@ and /api/health reports model_loaded: true:
 """
 
 import json
+import sys
 import time
 import urllib.request
 import urllib.error
@@ -26,7 +27,7 @@ SONGS = [
         "tags": "bengali,folk,rain,melancholic,acoustic",
         "lyrics": """[Verse]
 আকাশে মেঘ জমেছে আজ
-বৃष্টি নামে ঝিরিঝিরি
+বৃষ্টি নামে ঝিরিঝিরি
 নদীর জলে ঢেউ জাগে
 মনটা কেমন উদাসী
 
@@ -34,7 +35,7 @@ SONGS = [
 বর্ষা এলো প্রাণে আমার
 ভিজিয়ে দিলো সব কথা
 স্মৃতির পাতা খুলে গেলো
-বৃष্টি ভেজা এই বেলা
+বৃষ্টি ভেজা এই বেলা
 
 [Verse]
 জানালাতে জলের ফোঁটা
@@ -43,7 +44,7 @@ SONGS = [
 এখন শুধু একলা চিন
 
 [Outro]
-বৃष্টি থামুক না থামুক
+বৃষ্টি থামুক না থামুক
 মনে তুমি রয়ে যাবে""",
         "max_audio_length_ms": 60000,
     },
@@ -143,7 +144,7 @@ SONGS = [
 ঢাকের বাদ্যি বাজে বাজে
 
 [Chorus]
-এসো হে বঔশাখ এসো
+এসো হে বৈশাখ এসো
 নতুন আশা নিয়ে এসো
 পুরনো সব দুঃখ ভুলে
 আনন্দে আজ মেতে উঠো
@@ -182,12 +183,15 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     results = []
 
+    slugs_filter = set(sys.argv[1:]) or None
+    songs = [s for s in SONGS if slugs_filter is None or s["slug"] in slugs_filter]
+
     health = http_json("GET", "/api/health")
     print(f"Health check: {health}")
     if not health.get("model_loaded"):
         print("WARNING: model_loaded is false. Generation requests will fail.")
 
-    for song in SONGS:
+    for song in songs:
         print(f"\n=== Submitting: {song['title']} ===")
         submit_t0 = time.time()
         resp = http_json(

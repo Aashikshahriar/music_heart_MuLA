@@ -81,18 +81,38 @@ Submits a generation job. Returns immediately with a `job_id`.
 | Field                 | Type   | Default | Notes                                          |
 |-----------------------|--------|---------|-------------------------------------------------|
 | `lyrics`               | string | required | Full lyrics text, sections like `[Verse]`/`[Chorus]` work well |
-| `tags`                 | string | required | Comma-separated, no spaces, e.g. `piano,happy,wedding` |
+| `tags`                 | string | optional | Comma-separated free-text tags, e.g. `piano,happy,wedding` |
+| `genre`                | string | optional | Folded into the tags string (see note below) |
+| `bpm`                  | int    | optional | Folded in as `"<n>bpm"` — **best-effort only**, see note below |
+| `instruction`          | string | optional | Free-text style/production notes, folded into tags |
+| `prompt`               | string | optional | Free-text creative brief, folded into tags |
+| `file_format`          | string | `mp3`   | `mp3` or `wav` |
 | `max_audio_length_ms`  | int    | `60000` | Capped at `240000` (4 min, the upstream default) |
 | `topk`                 | int    | `50`    | Sampling top-k |
 | `temperature`          | float  | `1.0`   | Sampling temperature |
 | `cfg_scale`            | float  | `1.5`   | Classifier-free guidance scale |
+
+At least one of `tags`/`genre`/`bpm`/`instruction`/`prompt` must be non-empty.
+
+**Important — there's no real "prompt" or "instruction" concept in the model.** Looking at
+heartlib's own pipeline code, `HeartMuLaGenPipeline` only ever conditions on two flat text
+strings: `tags` (wrapped in `<tag>...</tag>`) and `lyrics`. There's no chat-style system prompt,
+no instruction-following, and no structured genre/BPM embeddings. `genre`, `bpm`, `instruction`,
+and `prompt` here are a convenience layer **this backend** adds — they're simply concatenated
+into one `tags` string before being handed to the model. In particular, `bpm` is unverified:
+the tag vocabulary the model was actually trained on (per the README's examples — `piano`,
+`happy`, `wedding`, `synthesizer`) shows no numeric tempo tokens, so passing e.g. `bpm: 120`
+might do nothing. Treat it as an experiment, not a guaranteed control.
 
 ```
 curl -X POST http://localhost:8080/api/generate \
   -H "Content-Type: application/json" \
   -d '{
     "lyrics": "[Verse]\nSample lyrics line one\nSample lyrics line two\n[Chorus]\nSinging in the sun",
-    "tags": "piano,happy,acoustic",
+    "genre": "acoustic pop",
+    "bpm": 100,
+    "instruction": "warm, intimate, gentle female vocal",
+    "file_format": "mp3",
     "max_audio_length_ms": 15000
   }'
 ```

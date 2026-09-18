@@ -78,9 +78,16 @@ form.addEventListener("submit", async (e) => {
   jobErrorEl.textContent = "";
   statusSection.hidden = false;
 
+  const bpmVal = document.getElementById("bpm").value;
+
   const body = {
     lyrics: lyricsEl.value,
-    tags: tagsEl.value,
+    tags: tagsEl.value || undefined,
+    genre: document.getElementById("genre").value || undefined,
+    bpm: bpmVal ? Number(bpmVal) : undefined,
+    instruction: document.getElementById("instruction").value || undefined,
+    prompt: document.getElementById("prompt").value || undefined,
+    file_format: document.getElementById("file_format").value,
     max_audio_length_ms: Number(document.getElementById("max_audio_length_ms").value),
     topk: Number(document.getElementById("topk").value),
     temperature: Number(document.getElementById("temperature").value),

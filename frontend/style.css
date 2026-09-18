@@ -33,6 +33,12 @@ textarea, input[type="text"], input[type="number"] {
   padding: 0.4rem;
 }
 
+.hint {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin: 0.5rem 0;
+}
+
 .advanced-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
