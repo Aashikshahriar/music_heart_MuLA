@@ -6,6 +6,8 @@ model (HeartMuLa-oss-3B) on a single consumer GPU.
 
 Tested on: RTX 3060 12GB, 32GB system RAM, Windows 11 + Docker Desktop (WSL2 backend).
 
+Insights: The accent is almost Chinese. And it's a TTS. So it doesn't miss any line
+
 ## What's in here
 
 ```
